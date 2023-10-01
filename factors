@@ -1,0 +1,37 @@
+import sys
+
+
+def factorize(num):
+    factors = []
+    for i in range(2, num + 1):
+        while num % i == 0:
+            factors.append(i)
+            num //= i
+            if len(factors) == 2:
+                return factors
+    return None
+
+
+def main(filename):
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                num = int(line.strip())
+                factors = factorize(num)
+                if factors:
+                    p, q = factors
+                    print(f'{num} = {p} * {q}')
+                else:
+                    print(f'Cannot factorize {num}')
+
+    except FileNotFoundError:
+        print(f'File not found: {filename}')
+    except ValueError:
+        print(f'Invalid input in the file: {filename}')
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+    else:
+        main(sys.argv[1])
